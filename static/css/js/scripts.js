@@ -1,7 +1,9 @@
 /* =====================================================
-   RADEC AUTOPARTES — Interacciones frontend
-   Solo animación / UX. Sin lógica de formularios,
-   sin llamadas a API, sin almacenamiento de datos.
+   PARTZONE — scripts.js
+   Interacciones de diseño (vanilla JS) + lógica de UI de
+   los modales de sesión / registro (Bootstrap). No hay
+   llamadas a API ni almacenamiento de datos: los formularios
+   son una demostración de interfaz.
    ===================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
   inicializarScrollReveal();
   inicializarRippleBotones();
   inicializarVolverArriba();
+  inicializarAlternarClave();
+  inicializarValidacionFormularios();
 });
 
 /* ---------- 1. Menú móvil (hamburguesa) ---------- */
@@ -26,7 +30,6 @@ function inicializarMenuMovil() {
     boton.setAttribute('aria-label', abierto ? 'Cerrar menú' : 'Abrir menú');
   });
 
-  // Cierra el menú al elegir un enlace
   menu.querySelectorAll('a').forEach((enlace) => {
     enlace.addEventListener('click', () => {
       menu.classList.remove('activo');
@@ -101,7 +104,7 @@ function inicializarScrollReveal() {
   elementos.forEach((el) => observador.observe(el));
 }
 
-/* ---------- 5. Efecto ripple en botones ---------- */
+/* ---------- 5. Efecto ripple en botones propios (.boton) ---------- */
 function inicializarRippleBotones() {
   document.querySelectorAll('.boton').forEach((boton) => {
     boton.addEventListener('click', function (evento) {
@@ -142,4 +145,84 @@ function inicializarVolverArriba() {
   boton.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
+}
+
+/* ---------- 7. Mostrar / ocultar contraseña en los modales ---------- */
+function inicializarAlternarClave() {
+  document.querySelectorAll('.alternar-clave').forEach((boton) => {
+    boton.addEventListener('click', () => {
+      const idObjetivo = boton.getAttribute('data-objetivo');
+      const campo = document.getElementById(idObjetivo);
+      if (!campo) return;
+
+      const icono = boton.querySelector('i');
+      const visible = campo.type === 'text';
+
+      campo.type = visible ? 'password' : 'text';
+      icono.classList.toggle('fa-eye', visible);
+      icono.classList.toggle('fa-eye-slash', !visible);
+      boton.setAttribute('aria-label', visible ? 'Mostrar contraseña' : 'Ocultar contraseña');
+    });
+  });
+}
+
+/* ---------- 8. Validación de los formularios de sesión / registro ----------
+   Solo valida en el cliente (patrón "needs-validation" de Bootstrap) y
+   muestra un mensaje de confirmación local. No hay envío real de datos. */
+function inicializarValidacionFormularios() {
+  const formularioLogin = document.getElementById('formularioLogin');
+  const formularioRegistro = document.getElementById('formularioRegistro');
+
+  if (formularioLogin) {
+    formularioLogin.addEventListener('submit', (evento) => {
+      evento.preventDefault();
+      evento.stopPropagation();
+
+      if (!formularioLogin.checkValidity()) {
+        formularioLogin.classList.add('was-validated');
+        return;
+      }
+
+      mostrarConfirmacion(formularioLogin);
+    });
+  }
+
+  if (formularioRegistro) {
+    const clave = document.getElementById('registroClave');
+    const confirmar = document.getElementById('registroConfirmar');
+
+    function validarCoincidencia() {
+      if (clave.value !== confirmar.value) {
+        confirmar.setCustomValidity('no-coincide');
+      } else {
+        confirmar.setCustomValidity('');
+      }
+    }
+    clave.addEventListener('input', validarCoincidencia);
+    confirmar.addEventListener('input', validarCoincidencia);
+
+    formularioRegistro.addEventListener('submit', (evento) => {
+      evento.preventDefault();
+      evento.stopPropagation();
+
+      validarCoincidencia();
+
+      if (!formularioRegistro.checkValidity()) {
+        formularioRegistro.classList.add('was-validated');
+        return;
+      }
+
+      mostrarConfirmacion(formularioRegistro);
+    });
+  }
+}
+
+/* Muestra el aviso de "demostración de interfaz" dentro del modal activo */
+function mostrarConfirmacion(formulario) {
+  const contenedorModal = formulario.closest('.modal-body');
+  const alerta = contenedorModal ? contenedorModal.querySelector('.alerta-demo') : null;
+  if (alerta) {
+    alerta.classList.add('mostrar');
+    setTimeout(() => alerta.classList.remove('mostrar'), 3500);
+  }
 }
