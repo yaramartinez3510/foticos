@@ -1,0 +1,172 @@
+{% extends"layout.html" %}
+{% block titulo %}{% endblock %}
+{% block contenido %}
+<main>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="inicio">
+    <img class="hero__foto" src="https://images.unsplash.com/photo-1596986952526-3be237187071?q=80&w=1600&auto=format&fit=crop" alt="Auto en garaje de refacciones">
+    <div class="envoltura hero__interior">
+      <div class="hero__texto revelar">
+        <span class="ojo hero__ojo">Tienda de autopartes</span>
+        <h1 class="hero__marca">PART<em>ZONE</em></h1>
+        <p class="hero__eslogan">"La pieza correcta, en la zona correcta."</p>
+        <p class="hero__descripcion">Más de 12,000 refacciones catalogadas por marca, modelo y año. Piezas certificadas, garantía real y gente que sabe de autos, no un catálogo genérico.</p>
+        <div class="hero__cta">
+          <a href="#catalogo" class="boton boton--acento">Ver catálogo</a>
+          <button type="button" class="boton boton--claro" data-bs-toggle="modal" data-bs-target="#modalRegistro">Crear cuenta gratis</button>
+        </div>
+        <div class="hero__metricas">
+          <div><strong>12,400+</strong><span>REF. EN CATÁLOGO</span></div>
+          <div><strong>48 HRS</strong><span>ENTREGA PROMEDIO</span></div>
+          <div><strong>98%</strong><span>COMPATIBILIDAD EXACTA</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CATÁLOGO POR CATEGORÍAS ============ -->
+  <section class="seccion seccion--blanca" id="catalogo">
+    <div class="envoltura">
+      <div class="seccion__cabecera revelar">
+        <span class="ojo">Catálogo · 6 familias</span>
+        <h2 class="seccion__titulo">Variedad de productos</h2>
+        <p class="seccion__descripcion">Organizamos cada refacción por sistema del vehículo para que encuentres lo que buscas sin perder tiempo revisando piezas que no aplican.</p>
+      </div>
+
+      <div class="rejilla-productos">
+
+        <article class="tarjeta-producto revelar">
+          <div class="tarjeta-producto__media">
+            <img src="https://images.unsplash.com/photo-1595787142842-7404bc60470d?q=80&w=900&auto=format&fit=crop" alt="Componente de freno metálico">
+            <span class="tarjeta-producto__icono"><i class="fa-solid fa-disc"></i></span>
+          </div>
+          <div class="tarjeta-producto__cuerpo">
+            <span class="ref-codigo">REF. FR-100</span>
+            <h3>Frenos</h3>
+            <p>Discos, balatas, calipers y kits completos con certificación de fábrica.</p>
+          </div>
+        </article>
+
+        <article class="tarjeta-producto revelar">
+          <div class="tarjeta-producto__media">
+            <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?q=80&w=900&auto=format&fit=crop" alt="Motor de automóvil">
+            <span class="tarjeta-producto__icono"><i class="fa-solid fa-gears"></i></span>
+          </div>
+          <div class="tarjeta-producto__cuerpo">
+            <span class="ref-codigo">REF. MT-200</span>
+            <h3>Motor y transmisión</h3>
+            <p>Bombas, empaques, bandas de tiempo y componentes internos del motor.</p>
+          </div>
+        </article>
+
+        <article class="tarjeta-producto revelar">
+          <div class="tarjeta-producto__media">
+            <img src="https://images.unsplash.com/photo-1611633235555-45e252fe48c8?q=80&w=900&auto=format&fit=crop" alt="Rueda y suspensión de auto">
+            <span class="tarjeta-producto__icono"><i class="fa-solid fa-arrows-up-down"></i></span>
+          </div>
+          <div class="tarjeta-producto__cuerpo">
+            <span class="ref-codigo">REF. SD-300</span>
+            <h3>Suspensión y dirección</h3>
+            <p>Amortiguadores, rótulas, terminales y bujes para un manejo estable.</p>
+          </div>
+        </article>
+
+        <article class="tarjeta-producto revelar">
+          <div class="tarjeta-producto__media">
+            <img src="https://images.unsplash.com/photo-1663642775693-6628f65358be?q=80&w=900&auto=format&fit=crop" alt="Compartimento del motor con detalles eléctricos">
+            <span class="tarjeta-producto__icono"><i class="fa-solid fa-car-battery"></i></span>
+          </div>
+          <div class="tarjeta-producto__cuerpo">
+            <span class="ref-codigo">REF. EB-400</span>
+            <h3>Eléctrico y baterías</h3>
+            <p>Baterías, alternadores, marchas y arneses probados en banco.</p>
+          </div>
+        </article>
+
+        <article class="tarjeta-producto revelar">
+          <div class="tarjeta-producto__media">
+            <img src="https://images.unsplash.com/photo-1522598140461-ec9911e01c53?q=80&w=900&auto=format&fit=crop" alt="Filtro de aire de automóvil">
+            <span class="tarjeta-producto__icono"><i class="fa-solid fa-filter"></i></span>
+          </div>
+          <div class="tarjeta-producto__cuerpo">
+            <span class="ref-codigo">REF. FL-500</span>
+            <h3>Filtros y lubricantes</h3>
+            <p>Filtros de aceite, aire y combustible, más aceites de grado OEM.</p>
+          </div>
+        </article>
+
+        <article class="tarjeta-producto revelar">
+          <div class="tarjeta-producto__media">
+            <img src="https://images.unsplash.com/photo-1606577924006-27d39b132ae2?q=80&w=900&auto=format&fit=crop" alt="Carrocería de automóvil">
+            <span class="tarjeta-producto__icono"><i class="fa-solid fa-car-side"></i></span>
+          </div>
+          <div class="tarjeta-producto__cuerpo">
+            <span class="ref-codigo">REF. CA-600</span>
+            <h3>Carrocería y accesorios</h3>
+            <p>Espejos, defensas, plumillas y accesorios de instalación directa.</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CALIDAD GARANTIZADA ============ -->
+  <section class="seccion seccion--clara" id="nosotros">
+    <div class="envoltura">
+      <div class="seccion__cabecera revelar">
+        <span class="ojo">Nosotros · Por qué PARTZONE</span>
+        <h2 class="seccion__titulo">Calidad garantizada</h2>
+        <p class="seccion__descripcion">Cada pieza pasa por verificación de compatibilidad antes de salir de bodega. Así de simple: la refacción correcta, la primera vez.</p>
+      </div>
+
+      <div class="nosotros__cuadro">
+        <div class="nosotros__foto revelar">
+          <img src="https://images.unsplash.com/photo-1487754180451-c456f719a1fc?q=80&w=1000&auto=format&fit=crop" alt="Técnico revisando el motor de un vehículo">
+        </div>
+
+        <div class="rejilla-beneficios">
+          <div class="beneficio revelar">
+            <div class="beneficio__icono"><i class="fa-solid fa-shield-halved"></i></div>
+            <div><h3>Garantía real</h3><p>Cambio o devolución directa si la pieza no corresponde a tu vehículo.</p></div>
+          </div>
+          <div class="beneficio revelar">
+            <div class="beneficio__icono"><i class="fa-solid fa-award"></i></div>
+            <div><h3>Piezas certificadas OEM</h3><p>Trabajamos solo con proveedores que cumplen especificación de fábrica.</p></div>
+          </div>
+          <div class="beneficio revelar">
+            <div class="beneficio__icono"><i class="fa-solid fa-user-gear"></i></div>
+            <div><h3>Asesoría técnica</h3><p>Un mecánico certificado te ayuda a confirmar la pieza antes de comprar.</p></div>
+          </div>
+          <div class="beneficio revelar">
+            <div class="beneficio__icono"><i class="fa-solid fa-truck-fast"></i></div>
+            <div><h3>Entrega rápida</h3><p>Piezas en stock local con entrega en 48 horas en zona metropolitana.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ASIDE — banner de disponibilidad ============ -->
+  <section class="seccion seccion--blanca">
+    <div class="envoltura">
+      <aside class="aside-banner revelar">
+        <img class="aside-banner__foto" src="https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?q=80&w=1400&auto=format&fit=crop" alt="Refacción de automóvil en primer plano">
+        <div class="aside-banner__contenido">
+          <span class="ojo">Alerta de disponibilidad</span>
+          <h2>¿No encontraste tu refacción? Te avisamos cuando llegue.</h2>
+          <p>Déjanos el correo y la marca/modelo de tu auto — te escribimos en cuanto la pieza esté en bodega, sin spam de por medio.</p>
+        </div>
+        <form class="aside-banner__forma" onsubmit="return false">
+          <label class="visually-hidden" for="correo-alerta">Correo electrónico</label>
+          <input type="email" id="correo-alerta" placeholder="tu@correo.com" required>
+          <button type="submit" class="boton boton--acento">Avísame</button>
+        </form>
+      </aside>
+    </div>
+  </section>
+
+</main>
+
+{% endblock %}

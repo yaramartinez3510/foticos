@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block titulo %} {% endblock%}</title>
+<meta name="description" content="PARTZONE: refacciones certificadas para tu vehículo. Frenos, motor, suspensión, eléctrico, filtros y carrocería. Garantía real y entrega rápida.">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='19' fill='%231A5E63'/%3E%3Cpath d='M20 8a12 12 0 0 1 10.2 18.4l-3.4-1.3a8.5 8.5 0 1 0-13.6 0l-3.4 1.3A12 12 0 0 1 20 8Z' fill='%2300BFB2'/%3E%3Ccircle cx='20' cy='20' r='3.5' fill='%23C64191'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<!-- Bootstrap 5 (usado para los modales de sesión / registro) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome (iconografía de formularios y redes) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/css/styles.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
+</head>
+<body>
+<header>
+  {% include 'components/navbar.html' %}
+</header>
+
+
+<main id="contenido-principal">
+  {%block contenido%}{%endblock%}
+</main>
+
+{%include 'components/footer.html' %}
+
+<button class="volver-arriba" id="volver-arriba" aria-label="Volver arriba"><i class="fa-solid fa-arrow-up"></i></button>
+
+<!-- ============ MODAL: INICIAR SESIÓN ============ -->
+<div class="modal fade" id="modalLogin" tabindex="-1" aria-labelledby="modalLoginTitulo" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title fs-5" id="modalLoginTitulo"><i class="fa-solid fa-right-to-bracket"></i> Inicia sesión</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-success alerta-demo" role="alert">
+          <i class="fa-solid fa-circle-check"></i> Esto es una demostración de interfaz — no se envían datos a ningún servidor.
+        </div>
+        <form class="needs-validation" novalidate id="formularioLogin">
+          <div class="mb-3">
+            <label for="loginCorreo" class="form-label">Correo electrónico</label>
+            <div class="campo-icono">
+              <i class="fa-solid fa-envelope"></i>
+              <input type="email" class="form-control" id="loginCorreo" placeholder="tu@correo.com" required>
+              <div class="invalid-feedback">Ingresa un correo válido.</div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="loginClave" class="form-label">Contraseña</label>
+            <div class="campo-icono">
+              <i class="fa-solid fa-lock"></i>
+              <input type="password" class="form-control" id="loginClave" placeholder="••••••••" minlength="6" required>
+              <button type="button" class="alternar-clave" data-objetivo="loginClave" aria-label="Mostrar contraseña"><i class="fa-solid fa-eye"></i></button>
+              <div class="invalid-feedback">Mínimo 6 caracteres.</div>
+            </div>
+          </div>
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="loginRecordarme">
+            <label class="form-check-label" for="loginRecordarme">Recordarme en este equipo</label>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <p class="modal-enlace-cambio">¿Aún no tienes cuenta?
+          <button type="button" data-bs-toggle="modal" data-bs-target="#modalRegistro">Regístrate aquí</button>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL: REGISTRO ============ -->
+<div class="modal fade" id="modalRegistro" tabindex="-1" aria-labelledby="modalRegistroTitulo" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title fs-5" id="modalRegistroTitulo"><i class="fa-solid fa-user-plus"></i> Crea tu cuenta</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-success alerta-demo" role="alert">
+          <i class="fa-solid fa-circle-check"></i> Esto es una demostración de interfaz — no se envían datos a ningún servidor.
+        </div>
+        <form class="needs-validation" novalidate id="formularioRegistro">
+          <div class="mb-3">
+            <label for="registroNombre" class="form-label">Nombre completo</label>
+            <div class="campo-icono">
+              <i class="fa-solid fa-user"></i>
+              <input type="text" class="form-control" id="registroNombre" placeholder="Nombre y apellidos" required>
+              <div class="invalid-feedback">Ingresa tu nombre.</div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="registroCorreo" class="form-label">Correo electrónico</label>
+            <div class="campo-icono">
+              <i class="fa-solid fa-envelope"></i>
+              <input type="email" class="form-control" id="registroCorreo" placeholder="tu@correo.com" required>
+              <div class="invalid-feedback">Ingresa un correo válido.</div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="registroTelefono" class="form-label">Teléfono</label>
+            <div class="campo-icono">
+              <i class="fa-solid fa-phone"></i>
+              <input type="tel" class="form-control" id="registroTelefono" placeholder="33 1234 5678" pattern="[0-9 ]{10,}" required>
+              <div class="invalid-feedback">Ingresa un teléfono válido (10 dígitos).</div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="registroClave" class="form-label">Contraseña</label>
+            <div class="campo-icono">
+              <i class="fa-solid fa-lock"></i>
+              <input type="password" class="form-control" id="registroClave" placeholder="••••••••" minlength="6" required>
+              <button type="button" class="alternar-clave" data-objetivo="registroClave" aria-label="Mostrar contraseña"><i class="fa-solid fa-eye"></i></button>
+              <div class="invalid-feedback">Mínimo 6 caracteres.</div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="registroConfirmar" class="form-label">Confirmar contraseña</label>
+            <div class="campo-icono">
+              <i class="fa-solid fa-lock"></i>
+              <input type="password" class="form-control" id="registroConfirmar" placeholder="••••••••" minlength="6" required>
+              <button type="button" class="alternar-clave" data-objetivo="registroConfirmar" aria-label="Mostrar contraseña"><i class="fa-solid fa-eye"></i></button>
+              <div class="invalid-feedback" id="registroConfirmarError">Las contraseñas no coinciden.</div>
+            </div>
+          </div>
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="registroTerminos" required>
+            <label class="form-check-label" for="registroTerminos">Acepto los términos y condiciones</label>
+            <div class="invalid-feedback">Debes aceptar los términos para continuar.</div>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Crear cuenta</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <p class="modal-enlace-cambio">¿Ya tienes cuenta?
+          <button type="button" data-bs-toggle="modal" data-bs-target="#modalLogin">Inicia sesión</button>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS (bundle incluye Popper, requerido por los modales) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/all.js') }}"></script>
+
+</body>
+</html>
