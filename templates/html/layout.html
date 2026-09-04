@@ -93,12 +93,12 @@
         <div class="alert alert-success alerta-demo" role="alert">
           <i class="fa-solid fa-circle-check"></i> Esto es una demostración de interfaz — no se envían datos a ningún servidor.
         </div>
-        <form class="needs-validation" novalidate id="formularioRegistro">
+        <form action="{{ url_for('signup')}}" method="post" class="needs-validation" novalidate id="formularioRegistro">
           <div class="mb-3">
             <label for="registroNombre" class="form-label">Nombre completo</label>
             <div class="campo-icono">
               <i class="fa-solid fa-user"></i>
-              <input type="text" class="form-control" id="registroNombre" placeholder="Nombre y apellidos" required>
+              <input type="text" name="nombre" class="form-control" id="registroNombre" placeholder="Nombre y apellidos" required>
               <div class="invalid-feedback">Ingresa tu nombre.</div>
             </div>
           </div>
@@ -106,7 +106,7 @@
             <label for="registroCorreo" class="form-label">Correo electrónico</label>
             <div class="campo-icono">
               <i class="fa-solid fa-envelope"></i>
-              <input type="email" class="form-control" id="registroCorreo" placeholder="tu@correo.com" required>
+              <input type="email" name="correo" class="form-control" id="registroCorreo" placeholder="tu@correo.com" required>
               <div class="invalid-feedback">Ingresa un correo válido.</div>
             </div>
           </div>
@@ -122,7 +122,7 @@
             <label for="registroClave" class="form-label">Contraseña</label>
             <div class="campo-icono">
               <i class="fa-solid fa-lock"></i>
-              <input type="password" class="form-control" id="registroClave" placeholder="••••••••" minlength="6" required>
+              <input type="password" name="clave" class="form-control" id="registroClave" placeholder="••••••••" minlength="6" required>
               <button type="button" class="alternar-clave" data-objetivo="registroClave" aria-label="Mostrar contraseña"><i class="fa-solid fa-eye"></i></button>
               <div class="invalid-feedback">Mínimo 6 caracteres.</div>
             </div>

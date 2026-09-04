@@ -6,7 +6,7 @@ class DevelopmetConfig(Config):
     MYSQL_HOST = 'localhost'
     MYSQL_USER = 'root'
     MYSQL_PASSWORD = 'mysql'
-    MYSQL_DATABASE = 'partzone'
+    MYSQL_DB = 'partzone'
 
 config ={
     'development': DevelopmetConfig
