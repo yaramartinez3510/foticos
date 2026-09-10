@@ -3,15 +3,15 @@ from flask_mysqldb import MySQL
 from config import config
 from werkzeug.security import generate_password_hash
 
-PARTZONE =Flask(__name__)
-PARTZONE.config.from_object(config['development'])
-db = MySQL(PARTZONE)
+PARTZONEApp =Flask(__name__)
+PARTZONEApp.config.from_object(config['development'])
+db = MySQL(PARTZONEApp)
 
-@PARTZONE.route('/')
+@PARTZONEApp.route('/')
 def home():
     return render_template('home.html')
 
-@PARTZONE.route('/signup', methods=['GET', 'POST'])
+@PARTZONEApp.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
         nombre = request.form['nombre']
@@ -26,6 +26,6 @@ def signup():
         return render_template('home.html')
 
 if __name__== '__main__':
-    PARTZONE.run(port=1408,debug=True)
+    PARTZONEApp.run(port=1408,debug=True)
 
             
