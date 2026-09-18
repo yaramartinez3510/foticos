@@ -104,8 +104,11 @@ h1, h2, h3 { font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; }
 /* =====================================================
    NAV
    ===================================================== */
+/* sticky en el <header>: si solo lo tiene el <nav>, no se queda fijo
+   porque su contenedor (<header>) mide lo mismo que él */
+body > header { position: sticky; top: 0; z-index: 1000; }
+
 .nav {
-  position: sticky; top: 0; z-index: 1000;
   background: var(--color-fondo-blanco);
   border-bottom: 1px solid rgba(2, 94, 99, 0.08);
   transition: var(--transicion-base);
@@ -128,7 +131,7 @@ h1, h2, h3 { font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; }
 .nav__enlaces a:hover { color: var(--color-secundario); }
 .nav__enlaces a:hover::after { width: 100%; }
 
-.nav__buscador { display: none; align-items: center; margin-left: auto; background: var(--color-fondo); border-radius: var(--radio-borde); overflow: hidden; }
+.nav__buscador { display: none; align-items: center; margin-left: auto; flex-shrink: 0; background: var(--color-fondo); border-radius: var(--radio-borde); overflow: hidden; }
 .nav__buscador input { border: none; background: transparent; padding: 0.55rem 0.9rem; font-family: var(--fuente-principal); font-size: 0.85rem; color: var(--color-texto); width: 150px; }
 .nav__buscador input::placeholder { color: var(--color-secundario); opacity: 0.7; }
 .nav__buscador button { border: none; background: none; padding: 0.55rem 0.7rem; color: var(--color-secundario); }
@@ -254,12 +257,13 @@ h1, h2, h3 { font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; }
 }
 .tarjeta-producto:hover { transform: translateY(-6px); box-shadow: var(--sombra-media); border-color: var(--color-primario); }
 
-.tarjeta-producto__media { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--color-fondo); }
+/* overflow visible: con 'hidden' el ícono (bottom:-20px) quedaba cortado a la mitad */
+.tarjeta-producto__media { position: relative; aspect-ratio: 4 / 3; overflow: visible; background: var(--color-fondo); }
 .tarjeta-producto__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
 .tarjeta-producto:hover .tarjeta-producto__media img { transform: scale(1.06); }
 
 .tarjeta-producto__icono {
-  position: absolute; left: 14px; bottom: -20px;
+  position: absolute; left: 14px; bottom: -20px; z-index: 2;
   width: 46px; height: 46px;
   display: flex; align-items: center; justify-content: center;
   border-radius: 10px;
@@ -269,7 +273,7 @@ h1, h2, h3 { font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; }
 }
 .tarjeta-producto__icono svg { width: 22px; height: 22px; }
 
-.tarjeta-producto__cuerpo { padding: var(--espacio-md); padding-top: 1.8rem; }
+.tarjeta-producto__cuerpo { position: relative; background: var(--color-fondo-blanco); padding: var(--espacio-md); padding-top: 1.8rem; }
 .tarjeta-producto h3 { font-size: 1.1rem; margin-bottom: 0.4rem; }
 .tarjeta-producto p { font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.4rem; }
 

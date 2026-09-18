@@ -167,8 +167,8 @@ function inicializarAlternarClave() {
 }
 
 /* ---------- 8. Validación de los formularios de sesión / registro ----------
-   Solo valida en el cliente (patrón "needs-validation" de Bootstrap) y
-   muestra un mensaje de confirmación local. No hay envío real de datos. */
+   Valida en el cliente (patrón "needs-validation" de Bootstrap).
+   Login: solo demostración. Registro: si es válido se envía a /signup. */
 function inicializarValidacionFormularios() {
   const formularioLogin = document.getElementById('formularioLogin');
   const formularioRegistro = document.getElementById('formularioRegistro');
@@ -212,7 +212,8 @@ function inicializarValidacionFormularios() {
         return;
       }
 
-      mostrarConfirmacion(formularioRegistro);
+      // Formulario válido: ahora SÍ se envía a Flask (POST /signup)
+      formularioRegistro.submit();
     });
   }
 }
