@@ -26,7 +26,13 @@
 </head>
 <body>
 <header>
+ {% if current_user.is_authenticated and current_user.perfil == 'A' %}
+  {% include 'components/navbar_admin.html' %}
+ {% if current_user.is_authenticated and current_user.perfil == 'U' %}
+  {% include 'components/navbar_user.html' %}
+{% else %}
   {% include 'components/navbar.html' %}
+{% endif %}
 </header>
 
 
