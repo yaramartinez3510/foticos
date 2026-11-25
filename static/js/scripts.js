@@ -1,9 +1,7 @@
 /* =====================================================
    PARTZONE — scripts.js
-   Interacciones de diseño (vanilla JS) + lógica de UI de
-   los modales de sesión / registro (Bootstrap). No hay
-   llamadas a API ni almacenamiento de datos: los formularios
-   son una demostración de interfaz.
+   Interacciones de diseño (vanilla JS) y validación de formularios.
+   El registro e inicio de sesión se envían a las rutas de Flask.
    ===================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   inicializarVolverArriba();
   inicializarAlternarClave();
   inicializarValidacionFormularios();
+  inicializarBusquedaCatalogo();
 });
 
 /* ---------- 1. Menú móvil (hamburguesa) ---------- */
@@ -168,7 +167,7 @@ function inicializarAlternarClave() {
 
 /* ---------- 8. Validación de los formularios de sesión / registro ----------
    Valida en el cliente (patrón "needs-validation" de Bootstrap).
-   Login: solo demostración. Registro: si es válido se envía a /signup. */
+   Login y registro: si el formulario es válido, se envía a Flask. */
 function inicializarValidacionFormularios() {
   const formularioLogin = document.getElementById('formularioLogin');
   const formularioRegistro = document.getElementById('formularioRegistro');
@@ -180,10 +179,11 @@ function inicializarValidacionFormularios() {
 
       if (!formularioLogin.checkValidity()) {
         formularioLogin.classList.add('was-validated');
-        return;
+        evento.preventDefault();
+        evento.stopPropagation();
+      } else {
+        formularioLogin.classList.add('was-validated');
       }
-
-      mostrarConfirmacion(formularioLogin);
     });
   }
 
@@ -218,12 +218,28 @@ function inicializarValidacionFormularios() {
   }
 }
 
-/* Muestra el aviso de "demostración de interfaz" dentro del modal activo */
-function mostrarConfirmacion(formulario) {
-  const contenedorModal = formulario.closest('.modal-body');
-  const alerta = contenedorModal ? contenedorModal.querySelector('.alerta-demo') : null;
-  if (alerta) {
-    alerta.classList.add('mostrar');
-    setTimeout(() => alerta.classList.remove('mostrar'), 3500);
+/* ---------- 9. Búsqueda de las tarjetas del catálogo ---------- */
+function inicializarBusquedaCatalogo() {
+  const formulario = document.getElementById('buscador-nav');
+  const campo = document.getElementById('buscar-nav');
+  const tarjetas = Array.from(document.querySelectorAll('.tarjeta-producto'));
+  const mensaje = document.getElementById('mensaje-busqueda');
+  if (!formulario || !campo || !tarjetas.length) return;
+
+  function filtrarTarjetas(evento) {
+    if (evento) evento.preventDefault();
+    const termino = campo.value.trim().toLocaleLowerCase('es-MX');
+    let visibles = 0;
+
+    tarjetas.forEach((tarjeta) => {
+      const coincide = tarjeta.textContent.toLocaleLowerCase('es-MX').includes(termino);
+      tarjeta.classList.toggle('d-none', !coincide);
+      if (coincide) visibles += 1;
+    });
+
+    if (mensaje) mensaje.hidden = !termino || visibles > 0;
   }
+
+  campo.addEventListener('input', filtrarTarjetas);
+  formulario.addEventListener('submit', filtrarTarjetas);
 }

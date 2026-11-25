@@ -1,14 +1,15 @@
-from flask_login import UserMixin 
+from flask_login import UserMixin
 from werkzeug.security import check_password_hash
 
 class User(UserMixin):
-    @classmethod
-    def _init_(self, id, nombre, correo, clave, perfil):
+    def __init__(self, id, nombre, correo, clave, perfil, telefono=None):
         self.id = id
         self.nombre = nombre
         self.correo = correo
         self.clave = clave
         self.perfil = perfil
-    @classmethod
-    def validarClave(self, claveCifrada, clave):
-        return check_password_hash(self.claveCifrada, clave)
+        self.telefono = telefono
+
+    @staticmethod
+    def validarClave(claveCifrada, clave):
+        return bool(claveCifrada) and check_password_hash(claveCifrada, clave)
