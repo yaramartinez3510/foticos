@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+{% block titulo %}Usuarios · PARTZONE{% endblock %}
+{% block contenido %}
+<section class="seccion seccion--clara">
+  <div class="envoltura">
+    <div class="seccion__cabecera">
+      <span class="ojo">Administración</span>
+      <h1 class="seccion__titulo">Usuarios registrados</h1>
+      <p class="seccion__descripcion">Consulta de cuentas guardadas en la base de datos.</p>
+    </div>
+
+    <div class="table-responsive bg-white rounded-3 shadow-sm p-3">
+      <table class="table table-striped align-middle mb-0">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Teléfono</th>
+            <th scope="col">Perfil</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for usuario in usuarios %}
+          <tr>
+            <td>{{ usuario.id }}</td>
+            <td>{{ usuario.nombre }}</td>
+            <td>{{ usuario.correo }}</td>
+            <td>{{ usuario.telefono }}</td>
+            <td>{{ 'Administrador' if usuario.perfil == 'A' else 'Usuario' }}</td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="5" class="text-center py-4">Todavía no hay usuarios registrados.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <a class="boton boton--secundario mt-4" href="{{ url_for('home') }}#inicio">Volver al inicio</a>
+
+    <div class="seccion__cabecera mt-5">
+      <h2 class="seccion__titulo">Solicitudes de disponibilidad</h2>
+      <p class="seccion__descripcion">Solicitudes recibidas desde el formulario de la página principal.</p>
+    </div>
+    <div class="table-responsive bg-white rounded-3 shadow-sm p-3">
+      <table class="table table-striped align-middle mb-0">
+        <thead>
+          <tr>
+            <th scope="col">Fecha</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Marca</th>
+            <th scope="col">Modelo</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for aviso in avisos %}
+          <tr>
+            <td>{{ aviso[4] }}</td>
+            <td>{{ aviso[1] }}</td>
+            <td>{{ aviso[2] }}</td>
+            <td>{{ aviso[3] }}</td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="4" class="text-center py-4">Todavía no hay solicitudes.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

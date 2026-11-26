@@ -1,271 +1,112 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Servidor: localhost
--- Tiempo de generación: 26-10-2026 a las 16:27:37
--- Versión del servidor: 8.0.44
--- Versión de PHP: 7.4.9
+-- Esquema local de PARTZONE para XAMPP / MariaDB.
+-- CREATE IF NOT EXISTS conserva las tablas y registros que ya existan.
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
+CREATE DATABASE IF NOT EXISTS partzone
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_spanish_ci;
 
+USE partzone;
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Base de datos: `partzone`
---
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `autoparte`
---
-
-CREATE TABLE `autoparte` (
-  `id_autoparte` int NOT NULL,
-  `nombre` varchar(150) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `marca` varchar(150) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `descripcion` varchar(300) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `precio` float NOT NULL,
-  `stock` int NOT NULL,
-  `id_tipo` int NOT NULL,
-  `imagen` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
+CREATE TABLE IF NOT EXISTS usuario (
+  id INT NOT NULL AUTO_INCREMENT,
+  nombre VARCHAR(150) NOT NULL,
+  correo VARCHAR(150) NOT NULL,
+  telefono VARCHAR(20) NOT NULL,
+  clave VARCHAR(255) NOT NULL,
+  perfil CHAR(1) NOT NULL DEFAULT 'U',
+  PRIMARY KEY (id),
+  UNIQUE KEY correo (correo)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `clasifica`
---
-
-CREATE TABLE `clasifica` (
-  `id_clasifica` int NOT NULL,
-  `id_tipo` int NOT NULL,
-  `id_autoparte` int NOT NULL,
-  `id_usuario` int NOT NULL
+CREATE TABLE IF NOT EXISTS tipo_autoparte (
+  id_tipo INT NOT NULL AUTO_INCREMENT,
+  nombre VARCHAR(150) NOT NULL,
+  descripcion VARCHAR(150) NOT NULL,
+  PRIMARY KEY (id_tipo)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `cotiene`
---
-
-CREATE TABLE `cotiene` (
-  `id_contiene` int NOT NULL,
-  `id_autoparte` int NOT NULL,
-  `id_pedido` int NOT NULL,
-  `cantidad` int NOT NULL,
-  `precio_unitario` float NOT NULL
+CREATE TABLE IF NOT EXISTS autoparte (
+  id_autoparte INT NOT NULL AUTO_INCREMENT,
+  nombre VARCHAR(150) NOT NULL,
+  marca VARCHAR(150) NOT NULL,
+  descripcion VARCHAR(300) NOT NULL,
+  precio FLOAT NOT NULL,
+  stock INT NOT NULL,
+  id_tipo INT NOT NULL,
+  imagen VARCHAR(255) NOT NULL,
+  PRIMARY KEY (id_autoparte),
+  KEY id_tipo (id_tipo),
+  CONSTRAINT autoparte_ibfk_1 FOREIGN KEY (id_tipo)
+    REFERENCES tipo_autoparte (id_tipo) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pedido`
---
-
-CREATE TABLE `pedido` (
-  `id_pedido` int NOT NULL,
-  `fecha` date NOT NULL,
-  `estado` varchar(150) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `total` float NOT NULL,
-  `id_usuario` int NOT NULL
+CREATE TABLE IF NOT EXISTS pedido (
+  id_pedido INT NOT NULL AUTO_INCREMENT,
+  fecha DATE NOT NULL,
+  estado VARCHAR(150) NOT NULL,
+  total FLOAT NOT NULL,
+  id_usuario INT NOT NULL,
+  PRIMARY KEY (id_pedido),
+  KEY id_usuario (id_usuario),
+  CONSTRAINT pedido_ibfk_1 FOREIGN KEY (id_usuario)
+    REFERENCES usuario (id) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `realiza`
---
-
-CREATE TABLE `realiza` (
-  `id_realiza` int NOT NULL,
-  `id_usuario` int NOT NULL,
-  `id_pedido` int NOT NULL,
-  `perfil` varchar(150) COLLATE utf8mb4_spanish_ci NOT NULL
+CREATE TABLE IF NOT EXISTS clasifica (
+  id_clasifica INT NOT NULL AUTO_INCREMENT,
+  id_tipo INT NOT NULL,
+  id_autoparte INT NOT NULL,
+  id_usuario INT NOT NULL,
+  PRIMARY KEY (id_clasifica),
+  KEY id_tipo (id_tipo),
+  KEY id_autoparte (id_autoparte),
+  KEY id_usuario (id_usuario),
+  CONSTRAINT clasifica_ibfk_1 FOREIGN KEY (id_usuario)
+    REFERENCES usuario (id) ON UPDATE CASCADE,
+  CONSTRAINT clasifica_ibfk_2 FOREIGN KEY (id_tipo)
+    REFERENCES tipo_autoparte (id_tipo) ON UPDATE CASCADE,
+  CONSTRAINT clasifica_ibfk_3 FOREIGN KEY (id_autoparte)
+    REFERENCES autoparte (id_autoparte) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tipo_autoparte`
---
-
-CREATE TABLE `tipo_autoparte` (
-  `id_tipo` int NOT NULL,
-  `nombre` varchar(150) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `descripcion` varchar(150) COLLATE utf8mb4_spanish_ci NOT NULL
+CREATE TABLE IF NOT EXISTS cotiene (
+  id_contiene INT NOT NULL AUTO_INCREMENT,
+  id_autoparte INT NOT NULL,
+  id_pedido INT NOT NULL,
+  cantidad INT NOT NULL,
+  precio_unitario FLOAT NOT NULL,
+  PRIMARY KEY (id_contiene),
+  KEY id_autoparte (id_autoparte),
+  KEY id_pedido (id_pedido),
+  CONSTRAINT cotiene_ibfk_1 FOREIGN KEY (id_pedido)
+    REFERENCES pedido (id_pedido) ON UPDATE CASCADE,
+  CONSTRAINT cotiene_ibfk_2 FOREIGN KEY (id_autoparte)
+    REFERENCES autoparte (id_autoparte) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS realiza (
+  id_realiza INT NOT NULL AUTO_INCREMENT,
+  id_usuario INT NOT NULL,
+  id_pedido INT NOT NULL,
+  perfil VARCHAR(150) NOT NULL,
+  PRIMARY KEY (id_realiza),
+  KEY id_pedido (id_pedido),
+  KEY id_usuario (id_usuario),
+  CONSTRAINT realiza_ibfk_1 FOREIGN KEY (id_usuario)
+    REFERENCES usuario (id) ON UPDATE CASCADE,
+  CONSTRAINT realiza_ibfk_2 FOREIGN KEY (id_pedido)
+    REFERENCES pedido (id_pedido) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
---
--- Estructura de tabla para la tabla `usuario`
---
-
-CREATE TABLE `usuario` (
-  `id` int NOT NULL,
-  `nombre` varchar(150) CHARACTER SET utf32 COLLATE utf32_spanish_ci NOT NULL,
-  `correo` varchar(150) CHARACTER SET utf32 COLLATE utf32_spanish_ci NOT NULL,
-  `clave` varchar(200) CHARACTER SET utf32 COLLATE utf32_spanish_ci NOT NULL,
-  `perfil` char(1) CHARACTER SET utf32 COLLATE utf32_spanish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_spanish_ci;
-
---
--- Volcado de datos para la tabla `usuario`
---
-
-INSERT INTO `usuario` (`id`, `nombre`, `correo`, `clave`, `perfil`) VALUES
-(1, 'Yara Victoria Martinez Sanchez', 'ya.sanc27@gmail.com', 'scrypt:32768:8:1$gdK4vbpskpiDwO3D$200291364e0e2c1b75905a4176ba5cf1bf35fa86ffcec0264d5fe63c0efe25ff6e5fcd322131f308d5b50a78ca2c8c6735ad9d68a697015db206f693c0e87c47', 'U');
-
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `autoparte`
---
-ALTER TABLE `autoparte`
-  ADD PRIMARY KEY (`id_autoparte`),
-  ADD KEY `id_tipo` (`id_tipo`);
-
---
--- Indices de la tabla `clasifica`
---
-ALTER TABLE `clasifica`
-  ADD PRIMARY KEY (`id_clasifica`),
-  ADD KEY `id_tipo` (`id_tipo`),
-  ADD KEY `id_autoparte` (`id_autoparte`),
-  ADD KEY `id_usuario` (`id_usuario`);
-
---
--- Indices de la tabla `cotiene`
---
-ALTER TABLE `cotiene`
-  ADD PRIMARY KEY (`id_contiene`),
-  ADD KEY `id_autoparte` (`id_autoparte`),
-  ADD KEY `id_pedido` (`id_pedido`);
-
---
--- Indices de la tabla `pedido`
---
-ALTER TABLE `pedido`
-  ADD PRIMARY KEY (`id_pedido`),
-  ADD KEY `id_usuario` (`id_usuario`);
-
---
--- Indices de la tabla `realiza`
---
-ALTER TABLE `realiza`
-  ADD PRIMARY KEY (`id_realiza`),
-  ADD KEY `id_pedido` (`id_pedido`),
-  ADD KEY `id_usuario` (`id_usuario`);
-
---
--- Indices de la tabla `tipo_autoparte`
---
-ALTER TABLE `tipo_autoparte`
-  ADD PRIMARY KEY (`id_tipo`);
-
---
--- Indices de la tabla `usuario`
---
-ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `correo` (`correo`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `autoparte`
---
-ALTER TABLE `autoparte`
-  MODIFY `id_autoparte` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `clasifica`
---
-ALTER TABLE `clasifica`
-  MODIFY `id_clasifica` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `cotiene`
---
-ALTER TABLE `cotiene`
-  MODIFY `id_contiene` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `pedido`
---
-ALTER TABLE `pedido`
-  MODIFY `id_pedido` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `realiza`
---
-ALTER TABLE `realiza`
-  MODIFY `id_realiza` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `tipo_autoparte`
---
-ALTER TABLE `tipo_autoparte`
-  MODIFY `id_tipo` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `usuario`
---
-ALTER TABLE `usuario`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `autoparte`
---
-ALTER TABLE `autoparte`
-  ADD CONSTRAINT `autoparte_ibfk_1` FOREIGN KEY (`id_tipo`) REFERENCES `tipo_autoparte` (`id_tipo`) ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `clasifica`
---
-ALTER TABLE `clasifica`
-  ADD CONSTRAINT `clasifica_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `clasifica_ibfk_2` FOREIGN KEY (`id_tipo`) REFERENCES `tipo_autoparte` (`id_tipo`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `clasifica_ibfk_3` FOREIGN KEY (`id_autoparte`) REFERENCES `autoparte` (`id_autoparte`) ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `cotiene`
---
-ALTER TABLE `cotiene`
-  ADD CONSTRAINT `cotiene_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `pedido` (`id_pedido`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `cotiene_ibfk_2` FOREIGN KEY (`id_autoparte`) REFERENCES `autoparte` (`id_autoparte`) ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `pedido`
---
-ALTER TABLE `pedido`
-  ADD CONSTRAINT `pedido_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `realiza`
---
-ALTER TABLE `realiza`
-  ADD CONSTRAINT `realiza_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `realiza_ibfk_2` FOREIGN KEY (`id_pedido`) REFERENCES `pedido` (`id_pedido`) ON UPDATE CASCADE;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+CREATE TABLE IF NOT EXISTS aviso_disponibilidad (
+  id_aviso INT NOT NULL AUTO_INCREMENT,
+  correo VARCHAR(150) NOT NULL,
+  marca VARCHAR(100) NOT NULL,
+  modelo VARCHAR(100) NOT NULL,
+  id_usuario INT NULL,
+  fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id_aviso),
+  KEY id_usuario (id_usuario),
+  CONSTRAINT aviso_disponibilidad_ibfk_1 FOREIGN KEY (id_usuario)
+    REFERENCES usuario (id) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;

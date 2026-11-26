@@ -1,6 +1,6 @@
 <nav class="nav" id="nav">
   <div class="envoltura nav__interior">
-    <a href="#inicio" class="nav__logo" aria-label="PARTZONE — inicio">
+    <a href="{{ url_for('home') }}#inicio" class="nav__logo" aria-label="PARTZONE — inicio">
       <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <circle cx="20" cy="20" r="19" stroke="#00BFB2" stroke-width="2"/>
         <path d="M20 8a12 12 0 0 1 10.2 18.4l-3.4-1.3a8.5 8.5 0 1 0-13.6 0l-3.4 1.3A12 12 0 0 1 20 8Z" fill="#028090"/>
@@ -11,25 +11,35 @@
     </a>
 
     <ul class="nav__enlaces">
-      <li><a href="#inicio">Inicio</a></li>
-      <li><a href="#nosotros">Nosotros</a></li>
-      <li><a href="#catalogo">Catálogo</a></li>
-      <li><a href="#ubicacion">Ubicación</a></li>
+      <li><a href="{{ url_for('home') }}#inicio">Inicio</a></li>
+      <li><a href="{{ url_for('home') }}#nosotros">Nosotros</a></li>
+      <li><a href="{{ url_for('home') }}#catalogo">Catálogo</a></li>
+      <li><a href="{{ url_for('home') }}#ubicacion">Ubicación</a></li>
     </ul>
 
-    <form class="nav__buscador" role="search" onsubmit="return false">
+    <form class="nav__buscador" id="buscador-nav" role="search">
       <label class="visually-hidden" for="buscar-nav">Buscar refacción</label>
       <input type="search" id="buscar-nav" placeholder="Busca una refacción…">
       <button type="submit" aria-label="Buscar"><i class="fa-solid fa-magnifying-glass"></i></button>
     </form>
 
     <div class="nav__acciones">
-      <button type="button" class="boton boton--secundario" data-bs-toggle="modal" data-bs-target="#modalLogin">
-        <i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión
-      </button>
-      <button type="button" class="boton boton--primario" data-bs-toggle="modal" data-bs-target="#modalRegistro">
-        <i class="fa-solid fa-user-plus"></i> Registrarse
-      </button>
+      {% if current_user.is_authenticated %}
+        {% if current_user.perfil == 'A' %}
+          <a class="boton boton--secundario" href="{{ url_for('sUsuario') }}">Usuarios</a>
+        {% endif %}
+        <span class="nav__saludo">Hola, {{ current_user.nombre }}</span>
+        <form action="{{ url_for('logout') }}" method="post" class="nav__sesion-forma">
+          <button type="submit" class="boton boton--primario">Cerrar sesión</button>
+        </form>
+      {% else %}
+        <button type="button" class="boton boton--secundario" data-bs-toggle="modal" data-bs-target="#modalLogin">
+          <i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión
+        </button>
+        <button type="button" class="boton boton--primario" data-bs-toggle="modal" data-bs-target="#modalRegistro">
+          <i class="fa-solid fa-user-plus"></i> Registrarse
+        </button>
+      {% endif %}
     </div>
 
     <button class="nav__hamburguesa" id="hamburguesa" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-movil">
@@ -38,17 +48,26 @@
   </div>
 
   <div class="envoltura nav__movil" id="menu-movil">
-    <a href="#inicio">Inicio</a>
-    <a href="#nosotros">Nosotros</a>
-    <a href="#catalogo">Catálogo</a>
-    <a href="#ubicacion">Ubicación</a>
+    <a href="{{ url_for('home') }}#inicio">Inicio</a>
+    <a href="{{ url_for('home') }}#nosotros">Nosotros</a>
+    <a href="{{ url_for('home') }}#catalogo">Catálogo</a>
+    <a href="{{ url_for('home') }}#ubicacion">Ubicación</a>
     <div class="nav__acciones-movil">
-      <button type="button" class="boton boton--secundario" data-bs-toggle="modal" data-bs-target="#modalLogin">
-        <i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión
-      </button>
-      <button type="button" class="boton boton--primario" data-bs-toggle="modal" data-bs-target="#modalRegistro">
-        <i class="fa-solid fa-user-plus"></i> Registrarse
-      </button>
+      {% if current_user.is_authenticated %}
+        {% if current_user.perfil == 'A' %}
+          <a class="boton boton--secundario" href="{{ url_for('sUsuario') }}">Usuarios</a>
+        {% endif %}
+        <form action="{{ url_for('logout') }}" method="post" class="nav__sesion-forma">
+          <button type="submit" class="boton boton--primario">Cerrar sesión</button>
+        </form>
+      {% else %}
+        <button type="button" class="boton boton--secundario" data-bs-toggle="modal" data-bs-target="#modalLogin">
+          <i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión
+        </button>
+        <button type="button" class="boton boton--primario" data-bs-toggle="modal" data-bs-target="#modalRegistro">
+          <i class="fa-solid fa-user-plus"></i> Registrarse
+        </button>
+      {% endif %}
     </div>
   </div>
 </nav>

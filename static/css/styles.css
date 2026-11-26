@@ -137,6 +137,8 @@ body > header { position: sticky; top: 0; z-index: 1000; }
 .nav__buscador button { border: none; background: none; padding: 0.55rem 0.7rem; color: var(--color-secundario); }
 
 .nav__acciones { display: none; align-items: center; gap: 0.6rem; margin-left: var(--espacio-sm); }
+.nav__sesion-forma { margin: 0; }
+.nav__saludo { font-size: 0.85rem; white-space: nowrap; }
 
 .boton {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;
@@ -170,8 +172,10 @@ body > header { position: sticky; top: 0; z-index: 1000; }
 .nav__movil a { padding-block: 0.4rem; font-weight: 500; }
 .nav__movil .nav__acciones-movil { display: flex; gap: 0.6rem; padding-top: 0.4rem; }
 .nav__movil .nav__acciones-movil .boton { flex: 1; }
+.nav__movil .nav__sesion-forma { display: flex; flex: 1; }
+.nav__movil .nav__sesion-forma .boton { width: 100%; }
 
-@media (min-width: 768px) {
+@media (min-width: 1080px) {
   .nav__enlaces { display: flex; }
   .nav__buscador { display: flex; }
   .nav__acciones { display: flex; }
@@ -338,12 +342,12 @@ body > header { position: sticky; top: 0; z-index: 1000; }
 .pie__columnas { display: grid; gap: var(--espacio-md); grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
 .pie__columna h4 { font-family: var(--fuente-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-primario); margin-bottom: 0.9rem; }
 .pie__columna ul { display: flex; flex-direction: column; gap: 0.55rem; }
-.pie__columna a { font-size: 0.9rem; opacity: 0.82; transition: var(--transicion-base); }
+.pie__columna a, .pie__columna span { font-size: 0.9rem; opacity: 0.82; }
+.pie__columna a { transition: var(--transicion-base); }
 .pie__columna a:hover { opacity: 1; color: var(--color-primario); }
 
 .pie__redes { display: flex; gap: 0.7rem; margin-top: 0.9rem; }
-.pie__redes a { width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; transition: var(--transicion-base); font-size: 0.9rem; }
-.pie__redes a:hover { background: var(--color-primario); border-color: var(--color-primario); }
+.pie__redes span { width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
 
 .pie__inferior { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: space-between; padding-top: var(--espacio-md); font-size: 0.8rem; opacity: 0.65; font-family: var(--fuente-mono); }
 
